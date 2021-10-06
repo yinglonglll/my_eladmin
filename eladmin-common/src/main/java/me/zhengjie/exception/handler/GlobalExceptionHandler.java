@@ -34,12 +34,17 @@ import static org.springframework.http.HttpStatus.*;
  * @date 2018-11-23
  */
 @Slf4j
+// @RestControllerAdvice https://www.jianshu.com/p/47aeeba6414c
+// @RestControllerAdvice和ControllerAdvice区别 https://www.cnblogs.com/liaojie970/p/8502653.html
+// 默认捕获全局抛出的异常
+// RestControllerAdvice会自动帮助catch异常,并匹配如下相应的@ExceptionHandler,然后重新封装异常信息，返回值，统一格式(转为json)返回给前端。
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
      * 处理所有不可知的异常
      */
+    // 是通过e.getMessage()来构造一个类对象(类工厂模式)，而不是new出来，set进去，再将对象放进去。
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiError> handleException(Throwable e){
         // 打印堆栈信息
@@ -48,7 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * BadCredentialsException
+     * BadCredentialsException-坏的凭证异常
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> badCredentialsException(BadCredentialsException e){
@@ -59,7 +64,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理自定义异常
+     * 处理自定义异常（fixme：为什么没有BadConfigurationException呢？其他的自定义异常都有）
      */
 	@ExceptionHandler(value = BadRequestException.class)
 	public ResponseEntity<ApiError> badRequestException(BadRequestException e) {
@@ -105,7 +110,8 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 统一返回
+     *
+     * 统一封装返回类；同时泛型限定后为ResponseEntity<ApiError>后，即该类返回值只能是ApiError类
      */
     private ResponseEntity<ApiError> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, HttpStatus.valueOf(apiError.getStatus()));

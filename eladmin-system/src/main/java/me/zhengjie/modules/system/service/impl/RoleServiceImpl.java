@@ -82,6 +82,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    // @Cacheable的实现方法 https://blog.csdn.net/chuixue24/article/details/103794706
+    // @CacheXxx相关注解及#p0介绍 https://blog.csdn.net/qq_29663071/article/details/81511845
+    // CachePut和Cacheable区别 https://blog.csdn.net/qq_43747682/article/details/84316418
+    // 缓存redis中key为定义的key，value为方法的返回值的json格式
     @Cacheable(key = "'id:' + #p0")
     @Transactional(rollbackFor = Exception.class)
     public RoleDto findById(long id) {

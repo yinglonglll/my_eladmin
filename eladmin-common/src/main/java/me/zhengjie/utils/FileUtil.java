@@ -188,7 +188,8 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         try {
             String fileName = name + nowStr + "." + suffix;
             String path = filePath + fileName;
-            // getCanonicalFile 可解析正确各种路径
+            // getCanonicalFile https://blog.csdn.net/cockroach02/article/details/80445570
+            // getCanonicalFile 会将文件路径解析为与操作系统相关的唯一的规范形式的字符串(即解析为正确各种路径)，而getAbsolutePath并不会
             File dest = new File(path).getCanonicalFile();
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {

@@ -45,13 +45,20 @@ public class AliPayServiceImpl implements AliPayService {
 
     @Override
     @Cacheable(key = "'config'")
+    // 有缓存走缓存
     public AlipayConfig find() {
+        // 1L就是表示long类型的值是1，但为什么要findById(1L)呢？
+        //  Optional类 https://www.cnblogs.com/zhangboyu/p/7580262.html
         Optional<AlipayConfig> alipayConfig = alipayRepository.findById(1L);
+        // orElse() 和 orElseGet()区别
+        // 当对象为空，则返回默认对象是一样的(findById(1L) 查无结果时)；
+        // 当对象为不为空，orElse()方法仍然创建了默认对象(AlipayConfig::new),但orElseGet() 方法不创建默认对象(即你缺我才给你创建默认对象，保证没有空指针异常~)
         return alipayConfig.orElseGet(AlipayConfig::new);
     }
 
     @Override
     @CachePut(key = "'config'")
+    // 每次都执行方法，将方法的返回值更新到缓存中，配合@Cacheable注解使用
     @Transactional(rollbackFor = Exception.class)
     public AlipayConfig config(AlipayConfig alipayConfig) {
         alipayConfig.setId(1L);
@@ -64,15 +71,16 @@ public class AliPayServiceImpl implements AliPayService {
         if(alipay.getId() == null){
             throw new BadRequestException("请先添加相应配置，再操作");
         }
+        // 1 构建支付宝客户端
         AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
 
-        // 创建API对应的request(电脑网页版)
+        // 2 创建API对应的request(电脑网页版)
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
 
-        // 订单完成后返回的页面和异步通知地址
+        // 3 对请求进行配置：订单完成后返回的页面和异步通知地址
         request.setReturnUrl(alipay.getReturnUrl());
         request.setNotifyUrl(alipay.getNotifyUrl());
-        // 填充订单参数
+        // 3 对请求进行数据填充：填充订单参数
         request.setBizContent("{" +
                 "    \"out_trade_no\":\""+trade.getOutTradeNo()+"\"," +
                 "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
@@ -95,6 +103,7 @@ public class AliPayServiceImpl implements AliPayService {
         }
         AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
 
+        // 手机端加上金额交易限制
         double money = Double.parseDouble(trade.getTotalAmount());
         double maxMoney = 5000;
         if(money <= 0 || money >= maxMoney){

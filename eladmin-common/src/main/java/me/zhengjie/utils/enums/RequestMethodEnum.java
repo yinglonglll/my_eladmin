@@ -64,6 +64,7 @@ public enum RequestMethodEnum {
     private final String type;
 
     public static RequestMethodEnum find(String type) {
+        // RequestMethodEnum.values() 枚举类转变为一个枚举类型的数组
         for (RequestMethodEnum value : RequestMethodEnum.values()) {
             if (type.equals(value.getType())) {
                 return value;

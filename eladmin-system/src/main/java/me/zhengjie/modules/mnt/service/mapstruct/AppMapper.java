@@ -25,6 +25,13 @@ import org.mapstruct.ReportingPolicy;
 * @author zhanghouying
 * @date 2019-08-24
 */
+// @Mapper
+// 简：http://www.tianshouzhi.com/api/tutorials/mapstruct/291 及 https://www.it1352.com/992006.html (unmappedTargetPolicy)
+// 全：https://dreamchan.cn/posts/26652.html#MapStruct%E7%9A%84%E4%BB%8B%E7%BB%8D
+// 1 注册到spring
+// 2 @Mapper的 uses 可以使用另一个 @Mapper映射器 ，空则无
+// 3 MapStruct自动忽略未映射的属性(unmappedTargetPolicy = ReportingPolicy.IGNORE)，无用的映射属性会自动忽略
+// 通过@Mapper自动生成实现类impl，即实体类entity数据转存为dto类中；BaseMapper含所有转化的方法；
 @Mapper(componentModel = "spring",uses = {},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AppMapper extends BaseMapper<AppDto, App> {
 

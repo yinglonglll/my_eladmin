@@ -52,6 +52,10 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     private final FileProperties properties;
 
     @Override
+    // Lambda表达式 https://blog.csdn.net/ycxzuoxin/article/details/80943513
+    // 接口返回实例 https://blog.csdn.net/ycxzuoxin/article/details/80949402
+    // Supplier接口和Consumer接口 https://blog.csdn.net/ycxzuoxin/article/details/80959229
+    // Pageable https://www.cnblogs.com/loveer/p/11303608.html
     public Object queryAll(LocalStorageQueryCriteria criteria, Pageable pageable){
         Page<LocalStorage> page = localStorageRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(localStorageMapper::toDto));
@@ -72,14 +76,18 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LocalStorage create(String name, MultipartFile multipartFile) {
+        // 比较上传文件大小与最大允许上传文件大小
         FileUtil.checkSize(properties.getMaxSize(), multipartFile.getSize());
+        // 通过获取文件原名来获取文件原名的拓展名(不含.)
         String suffix = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
+        // 通过拓展名知道上传文件的类型，以将文件上传到对应分类的目录下
         String type = FileUtil.getFileType(suffix);
         File file = FileUtil.upload(multipartFile, properties.getPath().getPath() + type +  File.separator);
         if(ObjectUtil.isNull(file)){
             throw new BadRequestException("上传失败");
         }
         try {
+            // 文件上传到本地后，再将文件的信息保存在数据库中
             name = StringUtils.isBlank(name) ? FileUtil.getFileNameNoEx(multipartFile.getOriginalFilename()) : name;
             LocalStorage localStorage = new LocalStorage(
                     file.getName(),
@@ -114,7 +122,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
             localStorageRepository.delete(storage);
         }
     }
-
+    // 下载excel文件
     @Override
     public void download(List<LocalStorageDto> queryAll, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();

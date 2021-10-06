@@ -35,6 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
+* Controller--> Service--> Repository 三层是固定的调用步骤
+* Controller：调用被Service封装的方法
+* Repository：基本的dao层持久化操作方法
+* Service：真正业务代码 = service层实现的逻辑 + 工具类方法
 * @author Zheng Jie
 * @date 2019-03-25
 */

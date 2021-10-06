@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 自定义redisConfig，通过对数据进行特定的序列化，常为String和json序列化
  * @author Zheng Jie
  * @date 2018-11-24
  */
@@ -194,6 +195,7 @@ class StringRedisSerializer implements RedisSerializer<Object> {
     }
 
     private StringRedisSerializer(Charset charset) {
+        // assert关键字 https://blog.51cto.com/lavasoft/43735
         Assert.notNull(charset, "Charset must not be null!");
         this.charset = charset;
     }

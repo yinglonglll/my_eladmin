@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
+ * 自定义的Token过滤器规则
  * @author /
  */
 public class TokenFilter extends GenericFilterBean {

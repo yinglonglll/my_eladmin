@@ -23,10 +23,12 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
 /**
- * 执行定时任务
+ * 执行定时任务(定时线程)
  * @author /
  */
 @Slf4j
+// Callable https://blog.csdn.net/m0_37204491/article/details/87930790?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link
+// Callable 有返回值的线程接口，Runnable为无返回值的线程接口
 public class QuartzRunnable implements Callable<Object> {
 
 	private final Object target;

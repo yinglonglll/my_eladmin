@@ -26,6 +26,7 @@ import java.util.Optional;
  * @date : 2019/10/28
  */
 @Component("auditorAware")
+// AuditorAware实现类
 public class AuditorConfig implements AuditorAware<String> {
 
     /**

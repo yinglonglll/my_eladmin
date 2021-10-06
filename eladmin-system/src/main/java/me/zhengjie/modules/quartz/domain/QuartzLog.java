@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
+ * 日志信息封装对象
  * @author Zheng Jie
  * @date 2019-01-07
  */

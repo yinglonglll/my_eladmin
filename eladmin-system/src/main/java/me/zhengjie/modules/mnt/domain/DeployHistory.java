@@ -46,6 +46,7 @@ public class DeployHistory implements Serializable {
 	@ApiModelProperty(value = "IP")
     private String ip;
 
+	// 自动生成时间戳且装配
 	@CreationTimestamp
 	@ApiModelProperty(value = "部署时间")
     private Timestamp deployDate;

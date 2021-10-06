@@ -38,7 +38,7 @@ public class DeptDto extends BaseDTO implements Serializable {
     private Boolean enabled;
 
     private Integer deptSort;
-
+    // 与实体类的@NotNULL对比，一个是entity数据，一个dto数据，故注解的校验方式不同
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDto> children;
 

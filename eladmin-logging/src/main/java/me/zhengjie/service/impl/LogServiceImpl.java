@@ -105,6 +105,10 @@ public class LogServiceImpl implements LogService {
     /**
      * 根据方法和传入的参数获取请求参数
      */
+    // @RequestBody和@RequestParam的区别 https://blog.csdn.net/weixin_39841589/article/details/82996051
+    // 根据aop的切入点@Log标注的方法是否拥有@RequestBody注解，若有则根据传入参数的个数或类型来获取该注解对应的请求参数，再将其请求参数转换为json格式数据返回
+    // 何为请求头？ https://www.cnblogs.com/vegetableDD/p/11594908.html
+    // 何为请求参数？ https://blog.csdn.net/zyl_yjy_yi/article/details/103319688
     private String getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();
         Parameter[] parameters = method.getParameters();

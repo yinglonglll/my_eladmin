@@ -25,6 +25,7 @@ import org.mapstruct.ReportingPolicy;
 * @author zhanghouying
 * @date 2019-08-24
 */
+// @Mapper 使用了uses，因为实体类DeployDto中含两个dto类对象AppDto和ServerDeployDto，故DeployDto可调用两者的mapper进行转换，即uses是调用的意思；
 @Mapper(componentModel = "spring",uses = {AppMapper.class, ServerDeployMapper.class},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DeployMapper extends BaseMapper<DeployDto, Deploy> {
 

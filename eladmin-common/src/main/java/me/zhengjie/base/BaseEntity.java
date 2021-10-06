@@ -38,10 +38,14 @@ import java.sql.Timestamp;
  */
 @Getter
 @Setter
+// @MappedSuperclass、@EntityListeners的用法 https://blog.csdn.net/qq_38181949/article/details/91979332
+// @MappedSuperclass 1 用来标识为父类 2 其不能映射到数据库且被标识的类的属性必须通过子类来映射 3 其不能再有@Entity和@Table注解标识该类，即父类用于继承
 @MappedSuperclass
+// @EntityListeners(AuditingEntityListener.class(审计实体监听)) 1 该注解用于监听实体类(监视值变则修改值)，在save、update之后的状态 2 在Application启动类上加@EnableJpaAuditing 3 配置AuditorAware实现类
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
-
+    // @CreatedDate、@CreatedBy、@LastModifiedDate、@LastModifiedBy等 https://www.jianshu.com/p/14cb69646195
+    // 作为所有entity的父类，继承父类时父类的属性则根据子类映射的数据库@table表名得到对应具体的字段名位置
     @CreatedBy
     @Column(name = "create_by", updatable = false)
     @ApiModelProperty(value = "创建人", hidden = true)

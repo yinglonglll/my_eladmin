@@ -20,6 +20,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
+ * 限定 统一封装返回类的类型，即这个返回类的框架，真正要返回什么东西
  * @author Zheng Jie
  * @date 2018-11-23
  */
@@ -35,6 +36,7 @@ class ApiError {
         timestamp = LocalDateTime.now();
     }
 
+    // 如下两者都是具有构造器的功能
     public static ApiError error(String message){
         ApiError apiError = new ApiError();
         apiError.setMessage(message);

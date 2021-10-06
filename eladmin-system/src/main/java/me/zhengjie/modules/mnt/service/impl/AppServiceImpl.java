@@ -63,7 +63,7 @@ public class AppServiceImpl implements AppService {
         ValidationUtil.isNull(app.getId(),"App","id",id);
         return appMapper.toDto(app);
     }
-
+    // 除了查，其他操作都要支持事物
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(App resources) {

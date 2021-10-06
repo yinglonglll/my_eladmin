@@ -41,6 +41,8 @@ public class Deploy extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	// @ManyToMany https://www.cnblogs.com/ranger2016/p/3953053.html#4041691
+	// 此类是多对多关系的一边
 	@ManyToMany
 	@ApiModelProperty(name = "服务器", hidden = true)
 	@JoinTable(name = "mnt_deploy_server",
@@ -48,12 +50,14 @@ public class Deploy extends BaseEntity implements Serializable {
 			inverseJoinColumns = {@JoinColumn(name = "server_id",referencedColumnName = "server_id")})
 	private Set<ServerDeploy> deploys;
 
+	// 此类是多对一关系的一边
 	@ManyToOne
     @JoinColumn(name = "app_id")
 	@ApiModelProperty(value = "应用编号")
     private App app;
 
     public void copy(Deploy source){
+    	// Hutool是一个Java工具包类库,对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装,组成各种Util工具类
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

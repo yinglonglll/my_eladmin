@@ -38,9 +38,14 @@ import java.util.concurrent.*;
 
 /**
  * 参考人人开源，https://gitee.com/renrenio/renren-security
+ * QuartzJobBean的使用。关键对象分为三个
+ * 1 调度工作类：org.springframework.scheduling.quartz.JobDetailBean
+ * 2 调度触发器：org.springframework.scheduling.quartz.CronTriggerBean
+ * 3 调度工厂类：org.springframework.scheduling.quartz.SchedulerFactoryBean
  * @author /
  * @date 2019-01-07
  */
+// 标记该类中方法为异步方法，且还需在启动类AppRun中添上@EnableAsync
 @Async
 public class ExecutionJob extends QuartzJobBean {
 
@@ -48,6 +53,8 @@ public class ExecutionJob extends QuartzJobBean {
     private final static ThreadPoolExecutor EXECUTOR = ThreadPoolExecutorUtil.getPoll();
 
     @Override
+    // JobExecutionContext https://blog.csdn.net/yulei_qq/article/details/104091497
+    // JobExecutionContext 是一个包含了各种上下文信息的句柄，指向执行中的JobDetail 实例、执行完成的Trigger实例、Trigger中的JobDataMap(合并中覆盖掉JobDetail的JobDataMap)
     public void executeInternal(JobExecutionContext context) {
         QuartzJob quartzJob = (QuartzJob) context.getMergedJobDataMap().get(QuartzJob.JOB_KEY);
         // 获取spring bean
@@ -70,7 +77,9 @@ public class ExecutionJob extends QuartzJobBean {
             System.out.println("任务开始执行，任务名称：" + quartzJob.getJobName());
             QuartzRunnable task = new QuartzRunnable(quartzJob.getBeanName(), quartzJob.getMethodName(),
                     quartzJob.getParams());
+            // 将线程提交到线程池执行
             Future<?> future = EXECUTOR.submit(task);
+            // 获取线程运行完return的结果
             future.get();
             long times = System.currentTimeMillis() - startTime;
             log.setTime(times);
@@ -113,6 +122,7 @@ public class ExecutionJob extends QuartzJobBean {
                 }
             }
         } finally {
+            // 将执行日志封装对象保存起来，便于查找程序错误
             quartzLogRepository.save(log);
         }
     }

@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 /**
  * @author Zheng Jie
  */
+// 给注册到spring容器的Service起名为el，通过 @el 可以获取该服务并调用里面的check方法
 @Service(value = "el")
 public class ElPermissionConfig {
 

@@ -21,10 +21,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 根据当前操作系统来获取全局的路径信息
  * @author Zheng Jie
  */
 @Data
 @Configuration
+// 在当前类中自动装配application-dev.yml中file对象中所有属性值的配置信息，如类中的path、avatar等
 @ConfigurationProperties(prefix = "file")
 public class FileProperties {
 
@@ -40,7 +42,10 @@ public class FileProperties {
 
     private ElPath windows;
 
+    // 获取当前操作系统的路径对象
     public ElPath getPath(){
+        // System.getProperty()的getProperty方法获得系统参数 https://blog.csdn.net/qq_35893120/article/details/80858654
+        // os.name 操作系统的名称
         String os = System.getProperty("os.name");
         if(os.toLowerCase().startsWith(ElAdminConstant.WIN)) {
             return windows;
@@ -51,6 +56,7 @@ public class FileProperties {
     }
 
     @Data
+    // 子类
     public static class ElPath{
 
         private String path;

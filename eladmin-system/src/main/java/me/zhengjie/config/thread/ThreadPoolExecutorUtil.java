@@ -27,8 +27,10 @@ import java.util.concurrent.TimeUnit;
  * @date 2019年10月31日18:16:47
  */
 public class ThreadPoolExecutorUtil {
-
+    // 获取自定义命名线程的线程池对象
     public static ThreadPoolExecutor getPoll(){
+        // https://www.cnblogs.com/blogslee/p/10825703.html
+        // SpringContextHolder工具类的方法getBean可以获取bean的实例，等同于@Autowired注入；但正常情况下@Autowired无法注入静态的bean,于是使用springContextHolder；
         AsyncTaskProperties properties = SpringContextHolder.getBean(AsyncTaskProperties.class);
         return new ThreadPoolExecutor(
                 properties.getCorePoolSize(),

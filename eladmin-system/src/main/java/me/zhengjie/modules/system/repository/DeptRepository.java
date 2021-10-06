@@ -47,6 +47,8 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
      * @param roleId 角色ID
      * @return /
      */
+    // @Query的参数 https://blog.csdn.net/weixin_38297879/article/details/84985197
+    // nativeQuery = true 允许使用原生的SQL进行查询，即如下value值；？1是占位符，且从1开始(即大于等于1)
     @Query(value = "select d.* from sys_dept d, sys_roles_depts r where " +
             "d.dept_id = r.dept_id and r.role_id = ?1", nativeQuery = true)
     Set<Dept> findByRoleId(Long roleId);
@@ -63,6 +65,10 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
      * @param count /
      * @param id /
      */
+    // 通过@Modifying或实现CRUDResotory接口来编写sql语句 https://blog.csdn.net/weixin_33910434/article/details/86712773
+    // @Modifying原理分析 https://www.cnblogs.com/wuhenzhidu/p/jpa.html
+    // 通过@Modifying和@Query两者注解才可以实现Update或者Delete操作，不支持insert
+    // 其解决办法(支持原生sql和赋予@Query语句为可修改的权限) https://blog.csdn.net/gm371200587/article/details/80827483
     @Modifying
     @Query(value = " update sys_dept set sub_count = ?1 where dept_id = ?2 ",nativeQuery = true)
     void updateSubCntById(Integer count, Long id);

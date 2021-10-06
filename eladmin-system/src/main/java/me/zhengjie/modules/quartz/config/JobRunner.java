@@ -34,6 +34,9 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JobRunner implements ApplicationRunner {
+    // https://www.cnblogs.com/morganlin/p/12057647.html
+    // log.debug("hello world"); 指定日志打印别名前缀，如JobRunner
+    // 输出：JobRunner:hello world
     private static final Logger log = LoggerFactory.getLogger(JobRunner.class);
     private final QuartzJobRepository quartzJobRepository;
     private final QuartzManage quartzManage;

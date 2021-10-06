@@ -26,9 +26,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 /**
+ *
+ * 2、在接收连接的类加上@ServerEndpoint和@Component
  * @author ZhangHouYing
  * @date 2019-08-10 15:46
  */
+// java实现websocket的两种方式 https://www.cnblogs.com/interdrp/p/7903736.html ;此是使用tomcat的websocket实现
+// 创建WebSocket端点
 @ServerEndpoint("/webSocket/{sid}")
 @Slf4j
 @Component
@@ -49,7 +53,7 @@ public class WebSocketServer {
 	 */
 	private String sid="";
 	/**
-	 * 连接建立成功调用的方法
+	 * (服务端)连接建立成功调用的方法
 	 * */
 	@OnOpen
 	public void onOpen(Session session,@PathParam("sid") String sid) {
@@ -65,7 +69,7 @@ public class WebSocketServer {
 	}
 
 	/**
-	 * 连接关闭调用的方法
+	 * (服务端)连接关闭调用的方法
 	 */
 	@OnClose
 	public void onClose() {
@@ -73,7 +77,7 @@ public class WebSocketServer {
 	}
 
 	/**
-	 * 收到客户端消息后调用的方法
+	 * (服务端)收到客户端消息后调用的方法
 	 * @param message 客户端发送过来的消息*/
 	@OnMessage
 	public void onMessage(String message, Session session) {
@@ -94,7 +98,7 @@ public class WebSocketServer {
 		error.printStackTrace();
 	}
 	/**
-	 * 实现服务器主动推送
+	 * 实现服务器主动推送信息
 	 */
 	private void sendMessage(String message) throws IOException {
 		this.session.getBasicRemote().sendText(message);
@@ -102,7 +106,7 @@ public class WebSocketServer {
 
 
 	/**
-	 * 群发自定义消息
+	 * (客户端)群发(或指定发)自定义消息
 	 * */
 	public static void sendInfo(SocketMsg socketMsg,@PathParam("sid") String sid) throws IOException {
 		String message = JSONObject.toJSONString(socketMsg);

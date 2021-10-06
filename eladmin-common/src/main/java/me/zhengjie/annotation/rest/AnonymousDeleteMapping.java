@@ -49,6 +49,9 @@ public @interface AnonymousDeleteMapping {
     /**
      * Alias for {@link RequestMapping#name}.
      */
+    // @AliasFor注解详解 https://blog.csdn.net/weixin_43564627/article/details/93871075
+    // @AliasFor原理解析 https://www.jianshu.com/p/9cb0d7bf3141
+    // 该注解参数为继承注解的功能，继承指定接口类RequestMapping.class的name属性，只能一个一个继承，故需如下多次使用@AliasFor注解
     @AliasFor(annotation = RequestMapping.class)
     String name() default "";
 

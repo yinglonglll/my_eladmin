@@ -25,6 +25,8 @@ public interface CacheKey {
     /**
      * 用户
      */
+    // 双冒号“::”详解：https://blog.csdn.net/zhoufanyang_china/article/details/87798829
+    // user::id 中的双冒号“::”是redis特有的语法功能，即字符串也能以对象的形式存东西，如user::id，user为对象，id是user的属性；
     String USER_ID = "user::id:";
     /**
      * 数据

@@ -42,6 +42,7 @@ public class OnlineController {
 
     @ApiOperation("查询在线用户")
     @GetMapping
+    // 只能admin权限才可以操作
     @PreAuthorize("@el.check()")
     public ResponseEntity<Object> query(String filter, Pageable pageable){
         return new ResponseEntity<>(onlineUserService.getAll(filter, pageable),HttpStatus.OK);

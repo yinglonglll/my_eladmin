@@ -39,7 +39,7 @@ import java.util.*;
 * @author zhanghouying
 * @date 2019-08-24
 */
-@Service
+ce
 @RequiredArgsConstructor
 public class ServerDeployServiceImpl implements ServerDeployService {
 

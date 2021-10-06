@@ -20,11 +20,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 线程池配置属性类
+ * 线程池配置属性类：命名id会默认取消“-”符号，再根据约定的驼峰命名进行属性装配
  * @author https://juejin.im/entry/5abb8f6951882555677e9da2
  * @date 2019年10月31日14:58:18
  */
 @Data
+// @Component和@Bean的区别:作用都一样(注册到spring容器中)，但作用的方式不一样 https://blog.csdn.net/qq_38534144/article/details/82414201
 @Component
 @ConfigurationProperties(prefix = "task.pool")
 public class AsyncTaskProperties {

@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
+ * 定时任务封装实体
  * @author Zheng Jie
  * @date 2019-01-07
  */
@@ -32,6 +33,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "sys_quartz_job")
+// 序列化的目的：将封装对象序列化为 流 的形式进行传输，尤其是dto，本质就是用于传输数据，故必须序列化
 public class QuartzJob extends BaseEntity implements Serializable {
 
     public static final String JOB_KEY = "JOB_KEY";
@@ -42,6 +44,7 @@ public class QuartzJob extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 在序列化实体类中填上@Transient使得该属性不被序列化
     @Transient
     @ApiModelProperty(value = "用于子任务唯一标识", hidden = true)
     private String uuid;

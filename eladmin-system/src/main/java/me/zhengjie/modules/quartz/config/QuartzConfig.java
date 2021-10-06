@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 public class QuartzConfig {
 
 	/**
-	 * 解决Job中注入Spring Bean为null的问题
+	 * 解决Job中注入Spring Bean为null的问题(手动自定义一个AdaptableJobFactory，仅重写createJobInstance方法，并注册到Spring容器中)
 	 */
 	@Component("quartzJobFactory")
 	public static class QuartzJobFactory extends AdaptableJobFactory {
@@ -62,6 +62,7 @@ public class QuartzConfig {
 	 */
 	@Bean(name = "scheduler")
 	public Scheduler scheduler(QuartzJobFactory quartzJobFactory) throws Exception {
+		// 创建quartz的调度器
 		SchedulerFactoryBean factoryBean=new SchedulerFactoryBean();
 		factoryBean.setJobFactory(quartzJobFactory);
 		factoryBean.afterPropertiesSet();

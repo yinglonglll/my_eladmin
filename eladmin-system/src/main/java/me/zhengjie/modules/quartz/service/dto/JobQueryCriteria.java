@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
+ * QuartzJobService接口的封装dto对象
  * @author Zheng Jie
  * @date 2019-6-4 10:33:02
  */

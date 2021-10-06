@@ -25,6 +25,8 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
+ * 泛型限定的问题
+ * class<>的疑惑 https://zhidao.baidu.com/question/214477258.html
  * @author /
  */
 @RequiredArgsConstructor

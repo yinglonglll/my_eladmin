@@ -58,14 +58,22 @@ public class SwaggerConfig {
     @SuppressWarnings("all")
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                // 是否启用Swagger
                 .enable(enabled)
+                // 默认(“/”下的访问路径)的swagger-ui的访问路径：http://localhost:8080/swagger-ui.html
                 .pathMapping("/")
+                // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）
                 .apiInfo(apiInfo())
                 .select()
+                // 错误路径不监控;Predicates:谓词、述语
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                // 扫描指定包中的swagger注解
+                // .apis(RequestHandlerSelectors.basePackage("com.ruoyi.project.tool.swagger"))
+                // 扫描所有 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-                //添加登陆认证
+                // 添加登陆认证
+                // 设置安全模式，swagger可以设置访问token，问如何进行设置的呢？
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts());
     }
@@ -115,6 +123,7 @@ public class SwaggerConfig {
 /**
  *  将Pageable转换展示在swagger中
  */
+// 结合Pageable和Swagger2 https://blog.csdn.net/egg1996911/article/details/85119627
 @Configuration
 class SwaggerDataConfig {
 

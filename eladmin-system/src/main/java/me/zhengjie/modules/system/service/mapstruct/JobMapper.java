@@ -25,6 +25,7 @@ import org.mapstruct.ReportingPolicy;
 * @author Zheng Jie
 * @date 2019-03-29
 */
+// fixme：为什么要调用DeptMapper的映射器呢？JobDto无其对象，按正常逻辑，应该是不用调用映射器，英文JobDto中都是基本类型
 @Mapper(componentModel = "spring",uses = {DeptMapper.class},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface JobMapper extends BaseMapper<JobDto, Job> {
 }

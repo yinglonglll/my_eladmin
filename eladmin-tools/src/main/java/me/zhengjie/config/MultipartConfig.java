@@ -32,8 +32,10 @@ public class MultipartConfig {
      * 文件上传临时路径
      */
     @Bean
+    // MultipartConfigElement 该类定义了Http服务上传文件存储位置、最大文件大小、最大请求的长度
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
+        // 获取用户的主目录
         String location = System.getProperty("user.home") + "/.eladmin/file/tmp";
         File tmpFile = new File(location);
         if (!tmpFile.exists()) {

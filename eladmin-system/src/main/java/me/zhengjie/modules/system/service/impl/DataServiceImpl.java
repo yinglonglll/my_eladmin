@@ -78,14 +78,19 @@ public class DataServiceImpl implements DataService {
      * @return 数据权限ID
      */
     public Set<Long> getCustomize(Set<Long> deptIds, RoleSmallDto role){
+        // 获取由角色id查询到的所有dept对象集合
         Set<Dept> depts = deptService.findByRoleId(role.getId());
         for (Dept dept : depts) {
+            // 获取由depts对象集合对应的部门id集合
             deptIds.add(dept.getId());
+            // 通过部门id来查询部门pid获取所有的depts对象集合
             List<Dept> deptChildren = deptService.findByPid(dept.getId());
             if (deptChildren != null && deptChildren.size() != 0) {
+                // 通过根据pid查出的deptChildren集合来获取部门id，并存到deptIds中
                 deptIds.addAll(deptService.getDeptChildren(deptChildren));
             }
         }
+        // 返回的是部门id集合
         return deptIds;
     }
 }

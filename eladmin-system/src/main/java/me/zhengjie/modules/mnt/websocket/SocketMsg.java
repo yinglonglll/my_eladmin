@@ -18,6 +18,7 @@ package me.zhengjie.modules.mnt.websocket;
 import lombok.Data;
 
 /**
+ * 不是被JPA管理的实体entity，而是dto，即传输对象实体
  * @author ZhangHouYing
  * @date 2019-08-10 9:55
  */

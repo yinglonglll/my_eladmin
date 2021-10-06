@@ -62,6 +62,8 @@ public class LocalStorageController {
     @ApiOperation("上传文件")
     @PostMapping
     @PreAuthorize("@el.check('storage:add')")
+    // MultipartFile https://blog.csdn.net/tolode/article/details/86522933
+    // MultipartFile是spring类型，代表HTML中form data方式上传的文件，包含二进制数据+文件名称
     public ResponseEntity<Object> create(@RequestParam String name, @RequestParam("file") MultipartFile file){
         localStorageService.create(name, file);
         return new ResponseEntity<>(HttpStatus.CREATED);

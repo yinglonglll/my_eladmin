@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 配置切面，使得标注注解@log时，执行切面的方法
  * @author Zheng Jie
  * @date 2018-11-24
  */
@@ -51,6 +52,7 @@ public class LogAspect {
     /**
      * 配置切入点
      */
+    // 原先切入点是扫描路径内所有的方法，现在是直接扫描配置了@Log注解的方法进行设置切入点
     @Pointcut("@annotation(me.zhengjie.annotation.Log)")
     public void logPointcut() {
         // 该方法无方法体,主要为了让同类中其他方法使用此切入点
@@ -58,9 +60,12 @@ public class LogAspect {
 
     /**
      * 配置环绕通知,使用在方法logPointcut()上注册的切入点
-     *
      * @param joinPoint join point for advice
      */
+    // JoinPoint/ProceedingJoinPoint对象的用法 https://blog.csdn.net/qq_15037231/article/details/80624064
+    // joinPoint.proceed() https://www.nuomiphp.com/eplan/29658.html
+    // 对logPointcut()方法执行时，进行环绕操作(如下程序)
+    // 1 环绕可灵活定义前置-目标方法(joinPoint.proceed())-后置的顺序(建议) 2 也可以独自@Before、@AfterReturning 分开方法块编写
     @Around("logPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result;
@@ -68,6 +73,7 @@ public class LogAspect {
         result = joinPoint.proceed();
         Log log = new Log("INFO",System.currentTimeMillis() - currentTime.get());
         currentTime.remove();
+        // 获取全局的request对象
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
         logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request),joinPoint, log);
         return result;
@@ -79,6 +85,7 @@ public class LogAspect {
      * @param joinPoint join point for advice
      * @param e exception
      */
+    // 若切入点执行方法出现异常则执行如下程序
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         Log log = new Log("ERROR",System.currentTimeMillis() - currentTime.get());

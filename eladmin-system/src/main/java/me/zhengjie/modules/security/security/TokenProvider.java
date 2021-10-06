@@ -35,6 +35,9 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * InitializingBean https://www.cnblogs.com/weiqihome/p/8922937.html
+ * InitializingBean接口为bean提供了初始化方法的方式，它只包括afterPropertiesSet方法，凡是继承该接口的类，在初始化bean的时候都会执行该方法。
+ * 个人理解：原本的xxxBean和xxxImpl是分开注册在Spring容器中，通过自动装配(如@AutoWired)来初始化，但实现该接口的话则直接初始化该bean，将两步骤绑定在一起
  * @author /
  */
 @Slf4j
@@ -56,10 +59,14 @@ public class TokenProvider implements InitializingBean {
     public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
         Key key = Keys.hmacShaKeyFor(keyBytes);
+        // JWT令牌的使用及部分算法 https://blog.csdn.net/weixin_44364444/article/details/105871675
+        // 收到客户端请求，从请求头获得令牌解析令牌中的信息
         jwtParser = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build();
+        // 生成了一个JWT令牌（未签名）
         jwtBuilder = Jwts.builder()
+                // 进行签名
                 .signWith(key, SignatureAlgorithm.HS512);
     }
 
@@ -74,6 +81,7 @@ public class TokenProvider implements InitializingBean {
         return jwtBuilder
                 // 加入ID确保生成的 Token 都不一致
                 .setId(IdUtil.simpleUUID())
+                // principle https://www.cnblogs.com/yangzhixue/p/12435316.html
                 .claim(AUTHORITIES_KEY, authentication.getName())
                 .setSubject(authentication.getName())
                 .compact();

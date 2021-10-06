@@ -26,6 +26,9 @@ import java.util.List;
  * @date 2018-12-20
  */
 @Data
+// @JsonInclude https://blog.csdn.net/weixin_44130081/article/details/89678450
+// 添上注解的字段不去序列化该字段
+// JsonInclude.Include.NON_EMPTY 这个属性包含NON_NULL，NON_ABSENT之后还包含如果字段为空也不序列化
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MenuVo implements Serializable {
 

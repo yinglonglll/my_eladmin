@@ -50,18 +50,25 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
     }
 
     @Bean
+    // 跨域过滤器
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
+        // 1 设置资格证书
         config.setAllowCredentials(true);
+        // 2 设置访问源地址
         config.addAllowedOrigin("*");
+        // 3 设置访问源请求头
         config.addAllowedHeader("*");
+        // 4 设置访问源请求方法
         config.addAllowedMethod("*");
+        // 5 对接口配置跨域设置
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 
     @Override
+    // 设置 静态资源映射路径关系
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         FileProperties.ElPath path = properties.getPath();
         String avatarUtl = "file:" + path.getAvatar().replace("\\","/");
@@ -72,6 +79,7 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
     }
 
     @Override
+    // 配置 HttpMessageConverters进行序列化和反序列化 以用于读取或写入请求或响应的主体
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();

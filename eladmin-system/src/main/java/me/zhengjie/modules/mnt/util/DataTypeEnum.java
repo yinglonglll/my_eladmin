@@ -21,6 +21,7 @@ package me.zhengjie.modules.mnt.util;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 枚举所有数据库源的枚举类，将这一抽象对象拿给sqlUtils使用，仅提供统一的管理数据源url字符信息
  * @author /
  */
 @Slf4j
@@ -94,6 +95,8 @@ public enum DataTypeEnum {
 
     public static DataTypeEnum urlOf(String jdbcUrl) {
         String url = jdbcUrl.toLowerCase().trim();
+        // DataTypeEnum[] values = DataTypeEnum.values(); 可略写的一步
+        // 循环匹配 参数传入前缀与枚举类中所有对象的前缀
         for (DataTypeEnum dataTypeEnum : values()) {
             if (url.startsWith(JDBC_URL_PREFIX + dataTypeEnum.feature)) {
                 try {

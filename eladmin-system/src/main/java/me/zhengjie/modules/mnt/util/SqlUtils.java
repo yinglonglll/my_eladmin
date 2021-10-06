@@ -30,6 +30,8 @@ import java.sql.*;
 import java.util.List;
 
 /**
+ * 此是手写数据库底层，仅为了给运维测试提供接口，同级见 rest/DataBaseController
+ * 1 通过得到统一的管理数据源url字符信息，来进行底层代码的数据源连接；
  * @author /
  */
 @Slf4j

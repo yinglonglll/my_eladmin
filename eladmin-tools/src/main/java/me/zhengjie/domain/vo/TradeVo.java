@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
+ * fixme:此处为什么不是dto而是vo呢，且跨过了entity-dto，直接到vo
  * 交易详情，按需应该存入数据库，这里存入数据库，仅供临时测试
  * @author Zheng Jie
  * @date 2018-12-31

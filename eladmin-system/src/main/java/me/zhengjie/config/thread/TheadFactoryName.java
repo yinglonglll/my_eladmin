@@ -33,6 +33,7 @@ public class TheadFactoryName implements ThreadFactory {
     private final AtomicInteger threadNumber = new AtomicInteger(1);
     private final String namePrefix;
 
+    // 无参调用有参构造器
     public TheadFactoryName() {
         this("el-pool");
     }
@@ -41,14 +42,15 @@ public class TheadFactoryName implements ThreadFactory {
         SecurityManager s = System.getSecurityManager();
         group = (s != null) ? s.getThreadGroup() :
                 Thread.currentThread().getThreadGroup();
-        //此时namePrefix就是 name + 第几个用这个工厂创建线程池的
+        // 此时namePrefix就是 name + 第几个用这个工厂创建线程池的
         this.namePrefix = name +
                 POOL_NUMBER.getAndIncrement();
     }
 
+    // ThreadFactory构造器默认执行的方法，此处取自定义命名再return线程对象
     @Override
     public Thread newThread(Runnable r) {
-        //此时线程的名字 就是 namePrefix + -thread- + 这个线程池中第几个执行的线程
+        // 此时线程的名字就是 namePrefix + -thread- + 这个线程池中第几个执行的线程
         Thread t = new Thread(group, r,
                 namePrefix + "-thread-"+threadNumber.getAndIncrement(),
                 0);

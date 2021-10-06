@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
- * 获取 HttpServletRequest
+ * 全局获取 HttpServletRequest
  * @author Zheng Jie
  * @date 2018-11-24
  */

@@ -22,6 +22,7 @@ import java.util.List;
 import me.zhengjie.annotation.Query;
 
 /**
+* 该实体描述了需要多多字段模糊查询的内容，即描述根据此内容在数据库中进行查询
 * @author Zheng Jie
 * @date 2019-09-05
 */

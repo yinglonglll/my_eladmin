@@ -31,12 +31,18 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+// 声明此对象映射到数据库的数据表
 @Table(name="mnt_app")
 public class App extends BaseEntity implements Serializable {
 
+	// @Id 注解可将实体Bean中某个属性定义为主键
     @Id
+	// @Column注解来标识实体类中属性与数据表中字段的对应关系
 	@Column(name = "app_id")
+	// swagger2中 对model属性的说明或者数据操作更改：注释的意思
 	@ApiModelProperty(value = "ID", hidden = true)
+	// @GeneratedValue https://blog.csdn.net/sswqzx/article/details/84337921
+	// 给一个实体生成一个唯一标识的主键(id)后、@GeneratedValue提供了主键的生成策略,其中 IDENTITY：主键由数据库生成, 采用数据库自增长, Oracle不支持这种方式
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -61,6 +67,8 @@ public class App extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "部署脚本")
 	private String deployScript;
 
+	// BeanUtils.copyProperties https://blog.csdn.net/dongyuxu342719/article/details/90242904
+	// 实现对象之间的多属性赋值，将resource赋值到本类对象
     public void copy(App source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }

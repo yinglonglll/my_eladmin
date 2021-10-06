@@ -36,6 +36,8 @@ public class DateUtil {
      * @param localDateTime /
      * @return /
      */
+    // LocalDateTime https://www.cnblogs.com/huanshilang/p/12013386.html
+    // atZone https://www.yiibai.com/javatime/javatime_localdatetime_atzone.html
     public static Long getTimeStamp(LocalDateTime localDateTime) {
         return localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
     }

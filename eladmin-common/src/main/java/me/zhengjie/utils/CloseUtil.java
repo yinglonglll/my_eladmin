@@ -25,6 +25,8 @@ import java.io.Closeable;
  **/
 public class CloseUtil {
 
+    // 使用AutoCloseable实现自动关闭资源 https://www.cnblogs.com/756623607-zhang/p/9216091.html
+    // AutoCloseable,Closeable和Flushable接口对比 https://www.cnblogs.com/demacian/p/4511488.html
     public static void close(Closeable closeable) {
         if (null != closeable) {
             try {

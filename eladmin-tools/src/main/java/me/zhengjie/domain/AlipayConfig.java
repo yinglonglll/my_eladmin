@@ -23,6 +23,7 @@ import java.io.Serializable;
 
 /**
  * 支付宝配置类
+ * fixme：为什么实体类内容命名却以xxxConfig命名呢？
  * @author Zheng Jie
  * @date 2018-12-31
  */

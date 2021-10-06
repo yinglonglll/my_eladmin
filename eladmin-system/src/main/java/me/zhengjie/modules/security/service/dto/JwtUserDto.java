@@ -37,6 +37,7 @@ public class JwtUserDto implements UserDetails {
 
     private final List<Long> dataScopes;
 
+    // @JSONField https://blog.csdn.net/badguy_gao/article/details/82853895
     @JSONField(serialize = false)
     private final List<GrantedAuthority> authorities;
 

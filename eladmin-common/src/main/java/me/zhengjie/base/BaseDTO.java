@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.sql.Timestamp;
 
 /**
+ * 为什么不和BaseEntity一样添上@MappedSuperclass注解？因为dto本质是传输数据，故不需对数据库的相关数据负责
  * @author Zheng Jie
  * @date 2019年10月24日20:48:53
  */

@@ -158,11 +158,16 @@ public class QiNiuServiceImpl implements QiNiuService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(QiniuContent content, QiniuConfig config) {
         //构造一个带指定Zone对象的配置类
+        // 通过传递过来的存储对象，从其中获取地区信息以获取地区信息对应的机房关系，
         Configuration cfg = new Configuration(QiNiuUtil.getRegion(config.getZone()));
+        // 获取登录七牛云的对象
         Auth auth = Auth.create(config.getAccessKey(), config.getSecretKey());
+        // 通过登录对象中对于的机房关系，获取该资管(水桶)管理对象
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
+            // 删除 数据库中记录成功上传的数据，具体何数据，由传参决定
             bucketManager.delete(content.getBucket(), content.getKey() + "." + content.getSuffix());
+            // 云端删除后，数据库也同步删除
             qiniuContentRepository.delete(content);
         } catch (QiniuException ex) {
             qiniuContentRepository.delete(content);
@@ -171,6 +176,7 @@ public class QiNiuServiceImpl implements QiNiuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    // 将七牛云云端和本地数据库数据进行同步
     public void synchronize(QiniuConfig config) {
         if(config.getId() == null){
             throw new BadRequestException("请先添加相应配置，再操作");

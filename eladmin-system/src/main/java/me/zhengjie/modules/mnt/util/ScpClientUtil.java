@@ -25,7 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 远程执行linux命令
+ * 单例模式
+ * 远程执行linux命令：使用ch.ethz.ssh2.Connection依赖来连接到远程服务器，逻辑类似jdbc底层代码
  * @author: ZhangHouYing
  * @date: 2019-08-10 10:06
  */
@@ -50,11 +51,14 @@ public class ScpClientUtil {
 	public void getFile(String remoteFile, String localTargetDirectory) {
 		Connection conn = new Connection(ip, port);
 		try {
+			// 讲本地与远程服务器进行连接上
 			conn.connect();
+			// 验证账号密码
 			boolean isAuthenticated = conn.authenticateWithPassword(username, password);
 			if (!isAuthenticated) {
 				System.err.println("authentication failed");
 			}
+			// 通过服务器的连接获取客户端操作的对象
 			SCPClient client = new SCPClient(conn);
 			client.get(remoteFile, localTargetDirectory);
 		} catch (IOException ex) {
@@ -63,7 +67,7 @@ public class ScpClientUtil {
 			conn.close();
 		}
 	}
-
+	// 如下重载putFile方法
 	public void putFile(String localFile, String remoteTargetDirectory) {
 		putFile(localFile, null, remoteTargetDirectory);
 	}

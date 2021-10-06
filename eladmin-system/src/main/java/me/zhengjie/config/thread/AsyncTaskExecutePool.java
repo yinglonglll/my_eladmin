@@ -28,6 +28,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author https://juejin.im/entry/5abb8f6951882555677e9da2
  * @date 2019年10月31日15:06:18
  */
+// 如果不想每次都写private  final Logger logger = LoggerFactory.getLogger(当前类名.class); 可以用注解@Slf4j,再使用log打印日志;
 @Slf4j
 @Configuration
 public class AsyncTaskExecutePool implements AsyncConfigurer {
@@ -60,6 +61,8 @@ public class AsyncTaskExecutePool implements AsyncConfigurer {
     }
 
     @Override
+    // https://blog.csdn.net/adayabetter/article/details/51146673
+    // 捕获程序异常退出并做相应操作
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return (throwable, method, objects) -> {
             log.error("===="+throwable.getMessage()+"====", throwable);

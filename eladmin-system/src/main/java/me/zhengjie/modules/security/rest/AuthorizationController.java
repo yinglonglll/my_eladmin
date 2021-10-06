@@ -73,21 +73,26 @@ public class AuthorizationController {
     @ApiOperation("登录授权")
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) throws Exception {
-        // 密码解密
+        // 密码解密(前端传过来的密码是经过加密(公钥或私钥)的，后端需先使用私钥解密)
         String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
         // 清除验证码
         redisUtils.del(authUser.getUuid());
+        // 生成验证码时，就已经存在于redis中，故第一步才从redis中查看有无输入验证码
         if (StringUtils.isBlank(code)) {
             throw new BadRequestException("验证码不存在或已过期");
         }
         if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
             throw new BadRequestException("验证码错误");
         }
+        // UsernamePasswordAuthenticationToken https://www.cnblogs.com/shiyu404/p/6530894.html
+        // 此处获取 账号密码进行验证的对象
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+        // 对验证对象进行验证 authentication：认证；
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 认证信息存储节点，若认证成功后直接存储在上下文中
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // 生成令牌与第三方系统获取令牌方式
         // UserDetails userDetails = userDetailsService.loadUserByUsername(userInfo.getUsername());
@@ -95,9 +100,9 @@ public class AuthorizationController {
         // SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
-        // 保存在线信息
+        // 保存在线信息:存储在redis中
         onlineUserService.save(jwtUserDto, token, request);
-        // 返回 token 与 用户信息
+        // 返回 token 与 用户信息；initialCapacity：初始容量为2，仅是变相使用Map赋值；
         Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
             put("token", properties.getTokenStartWith() + token);
             put("user", jwtUserDto);
