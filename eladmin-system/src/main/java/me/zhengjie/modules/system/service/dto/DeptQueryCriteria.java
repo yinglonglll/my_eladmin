@@ -22,10 +22,14 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
+ * DeptQueryCriteria：Dept实体类 QueryCriteria 查询标准，此处注解中id是Dept实体类的主键
+ * 即该类定义了实体类查询的标准：类中的属性是实体类中的字段名属性，通过其来制定不同的查询条件
+ * QueryCriteria的作用：在service层调用复数个repository的方法来实现动态的多条件查询，而不是以往教学式的一dao对一service；
 * @author Zheng Jie
 * @date 2019-03-25
 */
 @Data
+// fixme：Dept中无字段名id，只有dept_id，那这个id表示是什么呢？默认值？
 @DataPermission(fieldName = "id")
 public class DeptQueryCriteria{
 

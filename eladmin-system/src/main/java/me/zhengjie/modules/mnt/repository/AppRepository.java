@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
 * SpringDataJpa之JpaRepository<App, Long> https://www.cnblogs.com/amberbar/p/10261599.html
 * JpaRepository和JpaSpecificationExecutor接口的简单使用 https://cloud.tencent.com/developer/article/1429349
+* .JpaRepository支持接口规范方法名查询 https://www.cnblogs.com/suizhikuo/p/9412825.html
 * 1 此是JPA提供的核心接口，又@Table(name="mnt_app")，即该该自定义接口是对 mnt_app表 进行操作，jap也封装了findAll，findALLById等简易方法
 * 2 若需指定方法查询，准守jpa的命名准则： findBy + 属性名（首字母大写） + 查询条件(首字母大写 Is Equals)
 * JpaSpecificationExecutor<App>

@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 自定义线程名称
+ * 为了线程名字能直接体现其所属及作用
  * @author Zheng Jie
  * @date 2019年10月31日17:49:55
  */

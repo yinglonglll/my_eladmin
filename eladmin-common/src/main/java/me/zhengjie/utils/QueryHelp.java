@@ -33,7 +33,8 @@ import java.util.*;
 @Slf4j
 @SuppressWarnings({"unchecked","all"})
 public class QueryHelp {
-
+    // predicate使用参考 https://blog.csdn.net/weixin_39994296/article/details/114972993
+    // 接口一个输入参数，返回一个boolean值
     public static <R, Q> Predicate getPredicate(Root<R> root, Q query, CriteriaBuilder cb) {
         List<Predicate> list = new ArrayList<>();
         if(query == null){
@@ -42,9 +43,10 @@ public class QueryHelp {
         // 数据权限验证
         DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
         if(permission != null){
-            // 获取数据权限
+            // 获取数据权限(UserDetails中封装的权限，而权限是在SpringSecurityConfig中定义的规则)
             List<Long> dataScopes = SecurityUtils.getCurrentUserDataScope();
             if(CollectionUtil.isNotEmpty(dataScopes)){
+                // 判断是否联表，之后在进行获取注解@Query的数据信息执行操作
                 if(StringUtils.isNotBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
                     Join join = root.join(permission.joinName(), JoinType.LEFT);
                     list.add(getExpression(permission.fieldName(),join, root).in(dataScopes));

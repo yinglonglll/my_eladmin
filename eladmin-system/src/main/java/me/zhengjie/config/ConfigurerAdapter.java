@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * WebMvcConfigurer
- *
+ * 我们知道springMVC中最主要的功能就是DispatchServlet，即集中分发请求，此处@EnableWebMvc标注此类为MVC的JavaConfig配置类
  * @author Zheng Jie
  * @date 2018-11-30
  */

@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 前面模块都是在各自bean中实现配置，此处只不过放在一起，统一配置
  * @apiNote 配置文件转换Pojo类的 统一配置 类
  * @author: liaojinlong
  * @date: 2020/6/10 19:04

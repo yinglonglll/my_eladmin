@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 注解@Query的作用：给查询标准xxxQueryCriteria提供文本信息的数据，在执行查询时会获取这些文本信息再进行真正的查询操作(实现类)
  * @author Zheng Jie
  * @date 2019-6-4 13:52:30
  */

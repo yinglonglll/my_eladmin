@@ -19,7 +19,7 @@ import lombok.Data;
 
 /**
  * 登录验证码配置信息
- *
+ * 别处通过yml文件装配，默认对应格式 LoginCode --> login-code
  * @author liaojinlong
  * @date 2020/6/10 18:53
  */

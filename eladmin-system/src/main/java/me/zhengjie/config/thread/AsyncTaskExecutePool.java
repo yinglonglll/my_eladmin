@@ -25,7 +25,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 异步任务线程池装配类
- * @author https://juejin.im/entry/5abb8f6951882555677e9da2
+ * 此处实现线程的自定义配置(也可以使用默认的配置)，使得@Async以如下配置进行异步任务
+ * https://juejin.im/entry/5abb8f6951882555677e9da2
  * @date 2019年10月31日15:06:18
  */
 // 如果不想每次都写private  final Logger logger = LoggerFactory.getLogger(当前类名.class); 可以用注解@Slf4j,再使用log打印日志;
@@ -36,6 +37,8 @@ public class AsyncTaskExecutePool implements AsyncConfigurer {
     /** 注入配置类 */
     private final AsyncTaskProperties config;
 
+    // 注意：此处为了能够让properties实体类进行自动装配，才需要构造器显式调用，若删除此构造器则无法自动装配properties实体类，
+    // fixme：此处是异步任务的自定义配置，似乎不是创建pool的地方？
     public AsyncTaskExecutePool(AsyncTaskProperties config) {
         this.config = config;
     }

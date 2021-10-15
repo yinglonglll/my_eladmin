@@ -25,6 +25,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
+ * mnt是部署模块
 * @author zhanghouying
 * @date 2019-08-24
 */

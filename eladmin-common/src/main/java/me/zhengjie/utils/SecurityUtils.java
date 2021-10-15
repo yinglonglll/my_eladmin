@@ -41,6 +41,8 @@ public class SecurityUtils {
      * @return UserDetails
      */
     public static UserDetails getCurrentUser() {
+        // 核心组件之UserDetailService的详解 https://www.cnblogs.com/javazl/p/12439155.html
+        // userDetails类 封装了某个用户的账号，密码，权限，状态（是否锁定）等信息。只有getter方法
         UserDetailsService userDetailsService = SpringContextHolder.getBean(UserDetailsService.class);
         return userDetailsService.loadUserByUsername(getCurrentUsername());
     }

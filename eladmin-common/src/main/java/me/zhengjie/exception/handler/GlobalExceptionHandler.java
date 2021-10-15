@@ -110,10 +110,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     *
+     * ResponseEntity https://blog.csdn.net/qq_43317193/article/details/100109136
+     * 为什么使用ResponseEntity<>？因为继承了HttpEntity，可以添加HttpStatus状态码的HttpEntity的扩展类
      * 统一封装返回类；同时泛型限定后为ResponseEntity<ApiError>后，即该类返回值只能是ApiError类
      */
     private ResponseEntity<ApiError> buildResponseEntity(ApiError apiError) {
+        // 将ApiError返回实体类 转换为 HttpStatus类
         return new ResponseEntity<>(apiError, HttpStatus.valueOf(apiError.getStatus()));
     }
 }

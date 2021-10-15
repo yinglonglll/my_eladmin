@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 
 /**
  * @author jacky
- *  用于标记匿名访问方法
+ *  用于标记匿名访问方法，标记后就不需要权限认证来访问，例如/login请求则任何人都可以操作，仅需要对post的表单判断即可。
  */
 @Inherited
 @Documented

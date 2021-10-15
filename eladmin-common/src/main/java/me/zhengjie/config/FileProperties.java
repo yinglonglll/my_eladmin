@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 // 在当前类中自动装配application-dev.yml中file对象中所有属性值的配置信息，如类中的path、avatar等
+// 诸如从配置文件中获取信息，装配到实体类中称为Properties，与从数据库中取出数据装配到实体类为entity的称呼不一样
 @ConfigurationProperties(prefix = "file")
 public class FileProperties {
 

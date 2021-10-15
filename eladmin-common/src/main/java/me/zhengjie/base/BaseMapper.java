@@ -18,6 +18,7 @@ package me.zhengjie.base;
 import java.util.List;
 
 /**
+ * 实体类与DTO(数据传输对象)类的基类
  * @author Zheng Jie
  * @date 2018-11-23
  */

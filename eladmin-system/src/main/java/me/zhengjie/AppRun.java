@@ -34,11 +34,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Zheng Jie
  * @date 2018/11/15 9:20:19
  */
+
+// @EnableAsync https://www.cnblogs.com/hsug/p/13303018.html
 @EnableAsync
 @RestController
 @Api(hidden = true)
 @SpringBootApplication
 @EnableTransactionManagement
+// JPA之@EnableJpaAuditing注解 https://blog.csdn.net/qq_41030039/article/details/104371846
+// 作用：在使用repository保存对象时，createdByCreatedDatelastModifiedBylastModifiedDate有审计功能自动插入(插入到保存数据库中的数据中，即自动生成字段名值并设当前值)
+// 详见eladmin-common/config/AuditorConfig类
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class AppRun {
 

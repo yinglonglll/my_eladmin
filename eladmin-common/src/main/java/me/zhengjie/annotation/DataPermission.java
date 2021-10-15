@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
  *   1、如果没有用到 @OneToOne 这种关联关系，只需要填写 fieldName [参考：DeptQueryCriteria.class]
  *   2、如果用到了 @OneToOne ，fieldName 和 joinName 都需要填写，拿UserQueryCriteria.class举例:
  *   应该是 @DataPermission(joinName = "dept", fieldName = "id")
+ *   理解：是否被该注解标注后，就是拥有数据权限，无标注则无权限，例如由@Query标注的其他 *QueryCriteria 是没有被此注解标注的
  * </p>
  * @author Zheng Jie
  * @website https://el-admin.vip

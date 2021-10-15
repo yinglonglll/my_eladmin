@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
+ * 基于Spring Data的AuditorAware审计功能 https://blog.csdn.net/wiselyman/article/details/84917143
  * @description  : 设置审计
  * @author  : Dong ZhaoYang
  * @date : 2019/10/28
@@ -30,7 +31,7 @@ import java.util.Optional;
 public class AuditorConfig implements AuditorAware<String> {
 
     /**
-     * 返回操作员标志信息
+     * 返回操作员标志信息(此处重写的方法是配合create by使用 https://www.jianshu.com/p/3f2df336e37a)
      *
      * @return /
      */

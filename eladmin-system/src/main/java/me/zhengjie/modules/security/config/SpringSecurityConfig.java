@@ -50,7 +50,9 @@ import java.util.*;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 // WebSecurityConfigurerAdapter https://segmentfault.com/a/1190000023414919
-// 涉及 WebSecurityConfigurerAdapter的apply()--SecurityConfigurerAdapter--Filter 之间的联系
+// 1.涉及 WebSecurityConfigurerAdapter的apply()--SecurityConfigurerAdapter--Filter 之间的联系
+// 2.联系system/config/ConfigurerAdapter 进行分析两者作用 https://www.thinbug.com/q/53894649
+// 2.1 可能需要开启两者的跨区请求cors https://www.codeleading.com/article/33234794762/
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
@@ -81,7 +83,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // RequestMappingHandlerMapping 类中有一个最重要方法：handlerMethods：这个方法可以获取所有类中被@RequestMapping标注过的方法的对象(Method对象)
         RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
-        // 获取匿名标记(匿名注解@AnonymousAccess)
+        // 获取匿名标记(匿名注解@AnonymousAccess)，返回一个封装多个对象集合的集合对象
         Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
         httpSecurity
                 // 禁用 CSRF(Cross-site request forgery 跨站请求伪造)
@@ -164,8 +166,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         Set<String> patch = new HashSet<>();
         Set<String> delete = new HashSet<>();
         Set<String> all = new HashSet<>();
+        // 对每个方法进行权限认证，存在匿名注解标注的方法则获取其信息并封装到集合对象中，再封装到对象集合中
         for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
             HandlerMethod handlerMethod = infoEntry.getValue();
+            // 通过父类匿名注解来检测子类注解，即多态
             AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
             if (null != anonymousAccess) {
                 List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
