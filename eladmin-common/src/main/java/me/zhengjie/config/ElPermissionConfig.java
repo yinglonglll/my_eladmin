@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class ElPermissionConfig {
 
     public Boolean check(String ...permissions){
+        // 集合或数组 转换为stream()后，注意stream()是链式方法
         // collection.stream()用法 https://blog.csdn.net/qq_37131111/article/details/99546357
         // stream().map().collect()用法简要 https://www.cnblogs.com/ngy0217/p/11080840.html
         // 如下作用为获取用户信息列表UserDetails后，从中遍历获取所有的权限角色到elPermissions集合中
